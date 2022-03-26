@@ -1,9 +1,15 @@
-let title = 'Lesson01';
-const screens = [];
-let screenPrice = 1000;
-const rollback = 0.3;
-let fullPrice = screenPrice * (1 + rollback);
-let adaptive;
+const title = 'JS Project';
+const screens = "Простые, Сложные, Интерактивные";
+const screenPrice = 2000;
+const rollback = 25;
+const fullPrice = 50000;
+const adaptive = true
 
-alert('Hello, Сергей! Нажми ОК');
-console.log('lesson01');
+console.log('title: ', typeof title);
+console.log('fullPrice: ', typeof fullPrice);
+console.log('adaptive: ', typeof adaptive);
+console.log(screens.length)
+console.log(`Стоимость верстки экранов ${screenPrice} рублей`)
+console.log(`Стоимость разработки сайта ${fullPrice} рублей`)
+console.log(screens.toLowerCase().split(', '));
+console.log(fullPrice * (rollback/100));
