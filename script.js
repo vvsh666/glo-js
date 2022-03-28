@@ -12,6 +12,15 @@ const rollback = 25;
 const fullPrice = screenPrice + servicePrice1 + servicePrice2;
 const servicePercentPrice = Math.floor(fullPrice * (100 - rollback) / 100);
 
+console.log('title: ', typeof title);
+console.log('fullPrice: ', typeof fullPrice);
+console.log('adaptive: ', typeof adaptive);
+console.log(screens.length)
+console.log(`Стоимость верстки экранов ${screenPrice} рублей`)
+console.log(`Стоимость разработки сайта ${fullPrice} рублей`)
+console.log(screens.toLowerCase().split(', '));
+console.log(fullPrice * (rollback / 100));
+
 console.log(servicePercentPrice);
 
 if (fullPrice >= 0 && fullPrice < 15000) {
