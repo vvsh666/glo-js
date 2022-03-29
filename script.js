@@ -12,16 +12,27 @@ const rollback = 25;
 const fullPrice = screenPrice + servicePrice1 + servicePrice2;
 const servicePercentPrice = Math.floor(fullPrice * (100 - rollback) / 100);
 
-if (fullPrice >= 0 && fullPrice < 15000) {
-  console.log('Скидка не предусмотрена')
-} else if (fullPrice >= 15000 && fullPrice < 30000) {
-  console.log('Даем скидку в 5%')
-} else if (fullPrice >= 30000) {
-  console.log('Даем скидку в 10 %')
-} else {
-  console.log('Что то пошло не так')
+const showTypeOf = function (variable) {
+  console.log(variable, typeof variable)
 }
 
+const getRollbackMessage = function (price) {
+  if (price >= 0 && price < 15000) {
+    return 'Скидка не предусмотрена'
+  } else if (price >= 15000 && price < 30000) {
+    return 'Даем скидку в 5%'
+  } else if (price >= 30000) {
+    return 'Даем скидку в 10 %'
+  } else {
+    return 'Что то пошло не так'
+  }
+}
+
+showTypeOf(title);
+showTypeOf(screenPrice);
+showTypeOf(adaptive);
+
+console.log(getRollbackMessage(fullPrice));
 console.log('title: ', typeof title);
 console.log('fullPrice: ', typeof fullPrice);
 console.log('adaptive: ', typeof adaptive);
