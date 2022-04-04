@@ -9,7 +9,7 @@ const appData = {
   allServicePrice: 0,
   fullPrice: 0,
   servicePercentPrice: 0,
-  services: {},
+  services: [],
 
   asking: function () {
 
@@ -51,7 +51,12 @@ const appData = {
         price = prompt('Сколько это будет стоить?')
       }
       while (!appData.isNumber(price));
-      appData.services[name] = +price
+
+      appData.services.push({
+        id: i,
+        name: name,
+        price: price
+      })
     }
   },
 
@@ -65,11 +70,13 @@ const appData = {
   },
 
   addPrices: function () {
-    for (screen of appData.screens) {
-      appData.screenPrice += +screen.price
-    }
-    for (let key in appData.services) {
-      appData.allServicePrice += appData.services[key]
+
+    appData.screenPrice = appData.screens.reduce(function (sum, current) {
+      return sum + (+current.price)
+    }, 0)
+
+    for (let service of appData.services) {
+      appData.allServicePrice += +service.price
     }
   },
 
@@ -104,6 +111,7 @@ const appData = {
     console.log(appData.fullPrice);
     console.log(appData.servicePercentPrice);
     console.log(appData.screens);
+    console.log(appData.services);
   },
 
   start: function () {
