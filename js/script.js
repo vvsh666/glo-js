@@ -2,6 +2,8 @@
 
 const title = document.getElementsByTagName('h1')[0];
 const buttons = document.getElementsByClassName('handler_btn');
+const startBtn = buttons[0];
+const resetBtn = buttons[1];
 const screenBtn = document.querySelector('.screen-btn');
 const percentItems = document.querySelectorAll('.other-items.percent');
 const numberItems = document.querySelectorAll('.other-items.number');
@@ -28,31 +30,42 @@ const appData = {
   servicePercentPrice: 0,
   services: [],
 
-  asking: function () {
+  init: function () {
+    appData.addTitle();
+    startBtn.addEventListener('click', appData.start);
+    screenBtn.addEventListener('click', appData.addScreenBlock)
+  },
 
-    do {
-      appData.title = prompt('Как называется ваш проект?', '   КальКуЛятор ВеРстки  ');
-    } while (!appData.isStr(appData.title))
+  addTitle: function () {
+    document.title = title.textContent
+  },
 
-    for (let i = 0; i < 2; i++) {
-      let name;
-      let price = 0;
-
-      do {
-        name = prompt('Какие типы экранов нужно разработать?');
-      } while (!appData.isStr(name))
-
-      do {
-        price = prompt('Сколько будет стоить данная работа?');
-      }
-      while (!appData.isNumber(price));
+  addScreens: function () {
+    let screens = document.querySelectorAll('.screen');
+    screens.forEach(function (screen, index) {
+      const select = screen.querySelector('select');
+      const input = screen.querySelector('input');
+      const selectName = select.options[select.selectedIndex].textContent;
 
       appData.screens.push({
-        id: i,
-        name: name,
-        price: price
+        id: index,
+        name: selectName,
+        price: +select.value * +input.value
       })
-    }
+    })
+    console.log(appData.screens);
+  },
+
+  addServices: function () {
+
+  },
+
+  addScreenBlock: function () {
+    const cloneScreen = screens[0].cloneNode(true);
+    screens[screens.length - 1].after(cloneScreen);
+  },
+
+  asking: function () {
 
     appData.adaptive = confirm('Нужен ли адаптив на сайте?');
 
@@ -75,10 +88,6 @@ const appData = {
         price: price
       })
     }
-  },
-
-  isNumber: function (num) {
-    return (!isNaN(parseFloat(num)) && isFinite(num))
   },
 
   isStr: function (str) {
@@ -132,13 +141,14 @@ const appData = {
   },
 
   start: function () {
-    appData.asking();
-    appData.addPrices();
-    appData.getFullPrice();
-    appData.getServicePercentPrices();
-    appData.getTitle();
-    appData.logger()
+    appData.addScreens();
+    // appData.asking();
+    // appData.addPrices();
+    // appData.getFullPrice();
+    // appData.getServicePercentPrices();
+    // appData.getTitle();
+    // appData.logger()
   }
 }
 
-appData.start()
+appData.init()
