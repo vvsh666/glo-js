@@ -116,7 +116,7 @@ const appData = {
   },
 
   addRollback: function () {
-    rangeValue.textContent = rangeInput.value;
+    rangeValue.textContent = rangeInput.value + '%';
     appData.rollback = +rangeInput.value
     totalCountRollbackInput.value = Math.floor(appData.fullPrice * (100 - rangeInput.value) / 100)
   },
