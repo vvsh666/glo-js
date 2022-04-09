@@ -42,6 +42,11 @@ const appData = {
 
   start: function () {
     if (appData.checkInputs()) {
+      appData.screens = [];
+      appData.servicesPercent = {};
+      appData.servicesNumber = {};
+      appData.servicePricesPercent = 0;
+      appData.servicePricesNumber = 0;
       appData.addScreens();
       appData.addServices();
       appData.addPrices();
@@ -112,6 +117,7 @@ const appData = {
 
   addScreenBlock: function () {
     const cloneScreen = screens[0].cloneNode(true);
+    cloneScreen.querySelector('input[type=text]').value = ''
     screenBtn.before(cloneScreen);
   },
 
