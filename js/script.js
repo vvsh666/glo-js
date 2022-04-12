@@ -17,6 +17,8 @@ const totalCountOtherInput = totalInputs[2];
 const totalFullCountInput = totalInputs[3];
 const totalCountRollbackInput = totalInputs[4];
 
+const customCheckbox = document.querySelectorAll('.custom-checkbox');
+
 let screens = document.querySelectorAll('.screen');
 
 const appData = {
@@ -36,13 +38,14 @@ const appData = {
   init: function () {
     this.addTitle();
     startBtn.addEventListener('click', () => {
-      this.start();
-      this.disableInputs();
-      this.showResetBtn()
+      this.start()
     });
     screenBtn.addEventListener('click', this.addScreenBlock);
     rangeInput.addEventListener('input', () => {
       this.addRollback()
+    });
+    resetBtn.addEventListener('click', () => {
+      this.reset()
     })
   },
 
@@ -57,7 +60,9 @@ const appData = {
       this.addServices();
       this.addPrices();
       // this.logger();
-      this.showResult()
+      this.showResult();
+      this.disableInputs();
+      this.showResetBtn()
     }
   },
 
@@ -90,6 +95,43 @@ const appData = {
   showResetBtn: () => {
     startBtn.style.display = 'none';
     resetBtn.style.display = 'flex'
+  },
+
+  reset: function () {
+    this.title = '';
+    this.screens = [];
+    this.screenPrice = 0;
+    this.screenCount = 0;
+    this.adaptive = true;
+    this.rollback = 0;
+    this.servicePricesPercent = 0;
+    this.servicePricesNumber = 0;
+    this.fullPrice = 0;
+    this.servicePercentPrice = 0;
+    this.servicesPercent = {};
+    this.servicesNumber = {};
+
+    for (let i = 1; i < screens.length; i++) {
+      screens[i].remove()
+    }
+
+    screens[0].querySelector('input').value = '';
+    screens[0].querySelector('select').value = '';
+    screens[0].querySelector('input').disabled = false;
+    screens[0].querySelector('select').disabled = false;
+
+    customCheckbox.forEach((item) => {
+      item.checked = false
+    });
+
+    rangeInput.value = 0;
+    rangeValue.textContent = rangeInput.value + '%';
+
+    for (let i = 0; i < totalInputs.length; i++) {
+      totalInputs[i].value = 0
+    }
+    startBtn.style.display = 'flex';
+    resetBtn.style.display = 'none'
   },
 
   showResult: function () {
