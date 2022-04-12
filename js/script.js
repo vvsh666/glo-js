@@ -36,7 +36,8 @@ const appData = {
   init: function () {
     this.addTitle();
     startBtn.addEventListener('click', () => {
-      this.start()
+      this.start();
+      this.disableInputs()
     });
     screenBtn.addEventListener('click', this.addScreenBlock);
     rangeInput.addEventListener('input', () => {
@@ -67,7 +68,7 @@ const appData = {
   checkInputs: () => {
     let check = true
     screens = document.querySelectorAll('.screen');
-    screens.forEach(function (screen, index) {
+    screens.forEach((screen) => {
       const select = screen.querySelector('select');
       const input = screen.querySelector('input');
       if (select.value === '' || input.value === '') {
@@ -75,6 +76,14 @@ const appData = {
       }
     })
     return check
+  },
+
+  disableInputs: () => {
+    screens = document.querySelectorAll('.screen');
+    screens.forEach((screen) => {
+      screen.querySelector('select').disabled = true;
+      screen.querySelector('input').disabled = true
+    })
   },
 
   showResult: function () {
