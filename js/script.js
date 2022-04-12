@@ -19,6 +19,12 @@ const totalCountRollbackInput = totalInputs[4];
 
 const customCheckbox = document.querySelectorAll('.custom-checkbox');
 
+const cmsOpen = document.getElementById('cms-open');
+const hiddenCmsVariants = document.querySelector('.hidden-cms-variants');
+const selectCms = hiddenCmsVariants.querySelector('select');
+const cmsOtherBlockInput = hiddenCmsVariants.querySelector('.main-controls__input');
+const cmsOtherInput = hiddenCmsVariants.querySelector('input');
+
 let screens = document.querySelectorAll('.screen');
 
 const appData = {
@@ -34,6 +40,7 @@ const appData = {
   servicePercentPrice: 0,
   servicesPercent: {},
   servicesNumber: {},
+  cmsPrice: 0,
 
   init: function () {
     this.addTitle();
@@ -46,18 +53,17 @@ const appData = {
     });
     resetBtn.addEventListener('click', () => {
       this.reset()
+    });
+    cmsOpen.addEventListener('change', () => {
+      this.openCms()
     })
   },
 
   start: function () {
     if (this.checkInputs()) {
-      this.screens = [];
-      this.servicesPercent = {};
-      this.servicesNumber = {};
-      this.servicePricesPercent = 0;
-      this.servicePricesNumber = 0;
       this.addScreens();
       this.addServices();
+      this.addCms();
       this.addPrices();
       // this.logger();
       this.showResult();
@@ -80,6 +86,12 @@ const appData = {
       if (select.value === '' || input.value === '') {
         check = false
       }
+      if (cmsOpen.checked && selectCms.value === '') {
+        check = false
+      }
+      if (cmsOpen.checked && selectCms.value === 'other' && cmsOtherInput.value === '') {
+        check = false
+      }
     })
     return check
   },
@@ -89,7 +101,9 @@ const appData = {
     screens.forEach((screen) => {
       screen.querySelector('select').disabled = true;
       screen.querySelector('input').disabled = true
-    })
+    });
+    selectCms.disabled = true;
+    cmsOtherInput.disabled = true
   },
 
   showResetBtn: () => {
@@ -98,7 +112,6 @@ const appData = {
   },
 
   reset: function () {
-    this.title = '';
     this.screens = [];
     this.screenPrice = 0;
     this.screenCount = 0;
@@ -110,6 +123,7 @@ const appData = {
     this.servicePercentPrice = 0;
     this.servicesPercent = {};
     this.servicesNumber = {};
+    this.cmsPrice = 0;
 
     for (let i = 1; i < screens.length; i++) {
       screens[i].remove()
@@ -131,7 +145,14 @@ const appData = {
       totalInputs[i].value = 0
     }
     startBtn.style.display = 'flex';
-    resetBtn.style.display = 'none'
+    resetBtn.style.display = 'none';
+
+    cmsOtherInput.value = '';
+    cmsOtherBlockInput.style.display = 'none';
+    selectCms.value = '';
+    hiddenCmsVariants.style.display = 'none';
+    selectCms.disabled = false;
+    cmsOtherInput.disabled = false
   },
 
   showResult: function () {
@@ -207,6 +228,7 @@ const appData = {
     }
 
     this.fullPrice = this.screenPrice + this.servicePricesNumber + this.servicePricesPercent;
+    this.fullPrice = this.fullPrice + this.fullPrice * (this.cmsPrice / 100);
 
     this.servicePercentPrice = Math.floor(this.fullPrice * (100 - this.rollback) / 100)
   },
@@ -214,6 +236,32 @@ const appData = {
   logger: function () {
     for (let key in this) {
       console.log('Ключ:' + key + ' Значение:' + this[key])
+    }
+  },
+
+  openCms: function () {
+    if (cmsOpen.checked) {
+      hiddenCmsVariants.style.display = 'flex'
+    } else {
+      hiddenCmsVariants.style.display = 'none'
+    }
+
+    selectCms.addEventListener('change', () => {
+      if (selectCms.value === 'other') {
+        cmsOtherBlockInput.style.display = 'flex'
+      } else {
+        cmsOtherBlockInput.style.display = 'none'
+      }
+    })
+
+  },
+
+  addCms: function () {
+    if (cmsOpen.checked && selectCms.value === '50') {
+      this.cmsPrice = +selectCms.value
+    }
+    if (cmsOpen.checked && selectCms.value === 'other') {
+      this.cmsPrice = +cmsOtherInput.value
     }
   }
 
