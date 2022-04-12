@@ -37,7 +37,8 @@ const appData = {
     this.addTitle();
     startBtn.addEventListener('click', () => {
       this.start();
-      this.disableInputs()
+      this.disableInputs();
+      this.showResetBtn()
     });
     screenBtn.addEventListener('click', this.addScreenBlock);
     rangeInput.addEventListener('input', () => {
@@ -84,6 +85,11 @@ const appData = {
       screen.querySelector('select').disabled = true;
       screen.querySelector('input').disabled = true
     })
+  },
+
+  showResetBtn: () => {
+    startBtn.style.display = 'none';
+    resetBtn.style.display = 'flex'
   },
 
   showResult: function () {
